@@ -5,6 +5,9 @@ namespace Fiizy\Http\Message;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\UriInterface;
 
+/**
+ * Request factory interface based on PSR-17: HTTP Factories.
+ */
 interface RequestFactoryInterface
 {
     /**

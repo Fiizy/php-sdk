@@ -4,6 +4,9 @@ namespace Fiizy\Http\Message;
 
 use Psr\Http\Message\StreamInterface;
 
+/**
+ * Stream factory interface based on PSR-17: HTTP Factories.
+ */
 interface StreamFactoryInterface
 {
     /**
