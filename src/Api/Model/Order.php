@@ -13,6 +13,8 @@ class Order
     public $number;
     /** @var OrderStatus */
     public $status;
+    /** @var string a JSON containing order status details in case status could not be mapped to OrderStatus */
+    public $statusDetails;
     /** @var string order currency ISO 4217 code (e.g. USD) */
     public $currency;
     /** @var double */

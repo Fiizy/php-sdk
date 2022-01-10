@@ -22,12 +22,12 @@ $item->reference = 'product-101';
 $item->status = 'in_stock';
 $item->name = 'Product name';
 $item->description = 'Product description';
-$item->url = 'http://product-image-url';
-$item->imageUrl = 'http://product-url';
+$item->url = 'http://product-url';
+$item->imageUrl = 'http://product-image-url';
 $item->quantity = 1;
 $item->price = 97.45;
 $item->taxRate = 21.00;
-$item->totalAmount = 92.45;
+$item->totalAmount = 117.91;
 $item->metadata = array('id' => 101);
 
 $shipping = new LineItem();
@@ -38,7 +38,7 @@ $shipping->name = 'Flat rate';
 $shipping->quantity = 1;
 $shipping->price = 11.85;
 $shipping->taxRate = 21.00;
-$shipping->totalAmount = 15.00;
+$shipping->totalAmount = 14.34;
 $shipping->metadata = array('id' => 1);
 
 $discount = new LineItem();
@@ -57,8 +57,8 @@ $request->order->reference = 'ref-1';
 $request->order->number = '#001';
 $request->order->status = OrderStatus::NewOrder;
 $request->order->currency = 'EUR';
-$request->order->taxAmount = 22.56;
-$request->order->totalAmount = 130.01;
+$request->order->taxAmount = 22.95;
+$request->order->totalAmount = 127.25;
 $request->order->metadata = array('id' => 1);
 $request->order->lineItems = array($item, $shipping, $discount);
 
