@@ -11,10 +11,8 @@ class Order
     public $reference;
     /** @var string */
     public $number;
-    /** @var OrderStatus */
+    /** @var OrderStatus if cannot be mapped to OrderStatus then status string can be submitted as is */
     public $status;
-    /** @var string a JSON containing order status details in case status could not be mapped to OrderStatus */
-    public $statusDetails;
     /** @var string order currency ISO 4217 code (e.g. USD) */
     public $currency;
     /** @var double */
