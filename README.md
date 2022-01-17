@@ -63,10 +63,13 @@ $request->order->metadata = array('id' => 1);
 $request->order->lineItems = array($item, $shipping, $discount);
 
 $request->customer = new Customer();
+$request->customer->gender = 'male';
 $request->customer->firstName = 'Johnny';
 $request->customer->lastName = 'Appleseed';
+$request->customer->dateOfBirth = '1987-12-23';
 $request->customer->email = 'johnny.appleseed@fiizy.com';
 $request->customer->phoneNumber = '+34111111111';
+$request->customer->nationalIdentificationNumber = '123';
 
 $request->shippingAddress = new Address();
 $request->shippingAddress->firstName = 'Johnny';
@@ -87,6 +90,7 @@ $request->endpoints->cancelUrl = 'http://cancel-url';
 $request->endpoints->webhookUrl = 'http://webhook-url';
 
 $request->client = new Client();
+$request->client->language = 'en';
 $request->client->ip = '127.0.0.1';
 $request->client->userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.55 Safari/537.36';
 
