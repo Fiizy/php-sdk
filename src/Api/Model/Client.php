@@ -8,6 +8,8 @@ namespace Fiizy\Api\Model;
 class Client
 {
     /** @var string */
+    public $language;
+    /** @var string */
     public $ip;
     /** @var string */
     public $userAgent;
