@@ -13,7 +13,7 @@ class LineItem
     public $subType;
     /** @var string */
     public $reference;
-    /** @var string */
+    /** @var LineItemStatus */
     public $status;
     /** @var string */
     public $name;
