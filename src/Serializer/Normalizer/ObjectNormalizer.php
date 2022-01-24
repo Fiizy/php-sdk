@@ -17,6 +17,10 @@ class ObjectNormalizer implements NormalizerInterface, DenormalizerInterface
      */
     public function normalize($object)
     {
+        if ($object instanceof \JsonSerializable) {
+            return $object->jsonSerialize();
+        }
+
         $vars = get_object_vars($object);
         $data = array();
 

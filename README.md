@@ -25,9 +25,9 @@ $item->description = 'Product description';
 $item->url = 'http://product-url';
 $item->imageUrl = 'http://product-image-url';
 $item->quantity = 1;
-$item->price = 97.45;
+$item->price = new Money(97.45, 'EUR');
 $item->taxRate = 21.00;
-$item->totalAmount = 117.91;
+$item->totalAmount = new Money(117.91, 'EUR');
 $item->metadata = array('id' => 101);
 
 $shipping = new LineItem();
@@ -36,9 +36,9 @@ $shipping->subType = LineItemSubType::ShippingFee;
 $shipping->reference = 'shipping-1';
 $shipping->name = 'Flat rate';
 $shipping->quantity = 1;
-$shipping->price = 11.85;
+$shipping->price = new Money(11.85, 'EUR');
 $shipping->taxRate = 21.00;
-$shipping->totalAmount = 14.34;
+$shipping->totalAmount = new Money(14.34, 'EUR');
 $shipping->metadata = array('id' => 1);
 
 $discount = new LineItem();
@@ -47,8 +47,8 @@ $discount->subType = LineItemSubType::DiscountDiscount;
 $discount->reference = 'discount-1';
 $discount->name = 'Discount';
 $discount->quantity = 1;
-$discount->price = 5.00;
-$discount->totalAmount = 5.00;
+$discount->price = new Money(5.00, 'EUR');
+$discount->totalAmount = new Money(5.00, 'EUR');
 $discount->metadata = array();
 
 $request = new CheckoutRequest();
@@ -57,8 +57,8 @@ $request->order->reference = 'ref-1';
 $request->order->number = '#001';
 $request->order->status = OrderStatus::NewOrder;
 $request->order->currency = 'EUR';
-$request->order->taxAmount = 22.95;
-$request->order->totalAmount = 127.25;
+$request->order->taxAmount = new Money(22.95, 'EUR');
+$request->order->totalAmount = new Money(127.25, 'EUR');
 $request->order->metadata = array('id' => 1);
 $request->order->lineItems = array($item, $shipping, $discount);
 
