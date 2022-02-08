@@ -14,7 +14,7 @@ class Response extends AbstractMessage implements ResponseInterface
     private $reasonPhrase = '';
 
     /** @var int */
-    private $statusCode = 200;
+    private $statusCode;
 
     public function __construct($status = 200, array $headers = [], $body = null)
     {

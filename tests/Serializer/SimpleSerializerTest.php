@@ -4,7 +4,7 @@ namespace Fiizy\Serializer;
 
 use Fiizy\Api\Model\Address;
 use Fiizy\Api\Model\LineItem;
-use Fiizy\Api\Model\Money;
+use Fiizy\Api\Model\Decimal;
 use Fiizy\Api\Model\Order;
 use Fiizy\Api\Model\StoreStatusResponse;
 use Fiizy\Serializer\Normalizer\ObjectNormalizer;
@@ -30,8 +30,8 @@ class SimpleSerializerTest extends TestCase
     {
         $item = new LineItem();
         $item->name = 'line-item-name-1';
-        $item->price = new Money(98.1234567, 'EUR');
-        $item->totalDiscountAmount = new Money(12.34, 'EUR');
+        $item->price = new Decimal(98.1234567);
+        $item->totalDiscountAmount = new Decimal(12.34);
 
         $data = new Order();
         $data->lineItems = array($item);

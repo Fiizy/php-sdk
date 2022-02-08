@@ -4,6 +4,9 @@ namespace Fiizy\Http\Curl;
 
 use Psr\Http\Message\StreamInterface;
 
+/**
+ * Abstract PSR-7 message containing generic properties for both request and response.
+ */
 abstract class AbstractMessage
 {
 

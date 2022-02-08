@@ -15,11 +15,11 @@ class Order
     public $status;
     /** @var string order currency ISO 4217 code (e.g. USD) */
     public $currency;
-    /** @var Money */
+    /** @var Decimal */
     public $taxAmount;
-    /** @var Money */
+    /** @var Decimal */
     public $totalAmount;
-    /** @var Money */
+    /** @var Decimal */
     public $refundedAmount;
     /** @var array */
     public $metadata;

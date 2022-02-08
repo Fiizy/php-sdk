@@ -25,13 +25,13 @@ class LineItem
     public $description;
     /** @var integer */
     public $quantity;
-    /** @var Money */
+    /** @var Decimal */
     public $price;
-    /** @var double */
+    /** @var Decimal */
     public $taxRate;
-    /** @var Money */
+    /** @var Decimal */
     public $totalDiscountAmount;
-    /** @var Money */
+    /** @var Decimal */
     public $totalAmount;
     /** @var array */
     public $metadata;

@@ -2,6 +2,7 @@
 
 namespace Fiizy\Http\Curl;
 
+use Fiizy\Http\ClientExceptionInterface;
 use Fiizy\Http\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 
@@ -27,7 +28,7 @@ class Client implements ClientInterface
         $resource = curl_init();
 
         if (false === $resource) {
-            throw new \Exception('failed to setup curl');
+            throw new ClientExceptionInterface('failed to setup curl');
         }
 
         curl_setopt($resource, CURLOPT_URL, $request->getUri());
@@ -58,7 +59,7 @@ class Client implements ClientInterface
         if (!empty($error)) {
             curl_close($resource);
 
-            throw new \Exception($error);
+            throw new ClientExceptionInterface($error);
         }
 
         $headerSize = curl_getinfo($resource, CURLINFO_HEADER_SIZE);
