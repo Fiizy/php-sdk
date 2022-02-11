@@ -11,4 +11,6 @@ class StoreStatusRequest
     public $language;
     /** @var Store store data object */
     public $store;
+    /** @var Plugin plugin data object */
+    public $plugin;
 }
