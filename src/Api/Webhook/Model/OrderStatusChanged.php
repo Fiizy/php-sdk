@@ -11,7 +11,7 @@ class OrderStatusChanged
     public $reference;
     /** @var string order number */
     public $number;
-    /** @var string checkout status */
+    /** @var OrderStatus order status */
     public $status;
     /** @var float order amount */
     public $amount;
