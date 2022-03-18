@@ -2,6 +2,9 @@
 
 namespace Fiizy\Serializer\Normalizer;
 
+/**
+ * Object normalizer interface.
+ */
 interface NormalizerInterface
 {
     /**
