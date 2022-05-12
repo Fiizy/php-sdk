@@ -22,6 +22,7 @@ class Decimal implements JsonSerializable
     /**
      * @return float
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return (float) number_format($this->value, $this->decimals, '.', '');
