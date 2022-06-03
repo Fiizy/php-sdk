@@ -6,6 +6,7 @@ use Fiizy\Http\Curl\Response;
 use Fiizy\Serializer\Normalizer\ObjectNormalizer;
 use Fiizy\Serializer\SimpleSerializer;
 use PHPUnit\Framework\TestCase;
+use Psr\SimpleCache\CacheInterface;
 
 abstract class ApiTestCase extends TestCase
 {
@@ -35,12 +36,16 @@ abstract class ApiTestCase extends TestCase
     /**
      * @return Client
      */
-    protected function createClient($httpClient)
+    protected function createClient($httpClient, CacheInterface $cache = null)
     {
-        $client = new Client("http://localhost:8069");
+        $client = new Client("http://localhost");
         $client->setSerializer($this->createSerializer());
         $client->setDenormalizer($this->createNormalizer());
         $client->setHttpClient($httpClient);
+
+        if ($cache !== null) {
+            $client->setCache($cache);
+        }
 
         return $client;
     }

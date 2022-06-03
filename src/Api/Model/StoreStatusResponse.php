@@ -8,11 +8,15 @@ namespace Fiizy\Api\Model;
 class StoreStatusResponse
 {
     /** @var StoreStatusCode store status code */
-    public $statusCode = '';
+    public $statusCode;
     /** @var string store status label */
-    public $statusLabel = '';
+    public $statusLabel;
     /** @var string store backoffice link url */
-    public $backofficeLinkUrl = '';
+    public $backofficeLinkUrl;
     /** @var string store backoffice link label */
-    public $backofficeLinkLabel = '';
+    public $backofficeLinkLabel;
+    /** @var string widget url */
+    public $widgetUrl;
+    /** @var array<string, array<string, string>> translations map */
+    public $translations;
 }

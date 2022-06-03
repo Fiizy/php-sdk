@@ -9,12 +9,15 @@ use Psr\Http\Message\ResponseInterface;
 class MockHttpClient extends CurlHttpClient
 {
     private $queue = [];
+    public $requests = [];
 
     public function sendRequest(RequestInterface $request)
     {
         if (!$this->queue) {
             throw new \OutOfBoundsException('Mock queue is empty');
         }
+
+        $this->requests[] = $request;
 
         return array_shift($this->queue);
     }

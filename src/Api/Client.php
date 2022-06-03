@@ -2,6 +2,8 @@
 
 namespace Fiizy\Api;
 
+use DateTime;
+use DateTimeZone;
 use Exception;
 use Fiizy\Api\Exception\ApiClientException;
 use Fiizy\Api\Exception\ApiCommunicationException;
@@ -12,6 +14,7 @@ use Fiizy\Http\HttpClientInterface;
 use Fiizy\Serializer\Normalizer\DenormalizerInterface;
 use Fiizy\Serializer\SerializerInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * API Client.
@@ -20,6 +23,7 @@ class Client
 {
     const API_URL = 'https://api.fiizy.es';
     const BASE_PATH = 'api/v2/';
+    const CACHE_KEY_PATTERN = 'fiizy-api-%s';
 
     /** @var SerializerInterface */
     protected $serializer;
@@ -29,6 +33,9 @@ class Client
 
     /** @var HttpClientInterface */
     protected $httpClient;
+
+    /** @var CacheInterface cache */
+    protected $cache;
 
     /** @var string */
     private $apiUrl;
@@ -82,6 +89,17 @@ class Client
     }
 
     /**
+     * Set cache.
+     *
+     * @param CacheInterface $cache
+     * @return void
+     */
+    public function setCache(CacheInterface $cache)
+    {
+        $this->cache = $cache;
+    }
+
+    /**
      * Set api authorization keys
      *
      * @param string $publicKey api public key
@@ -104,14 +122,27 @@ class Client
      * @param array $query The filters of the request.
      * @param null|string $type Response class type.
      * @param boolean $verify Verify response signature.
+     * @param boolean $cache whether result should be cached or not, if yes then first will check if cache exists
+     * @param string|null $cacheKey specified string will be used as cache key, if omitted then key will be generated based on request
      *
      * @return mixed The data of the response.
      * @throws Exception
      */
-    public function get($path, $query = null, $type = null, $verify = false)
+    public function get($path, $query = null, $type = null, $verify = false, $cache = false, $cacheKey = null)
     {
+        if ($cacheKey === null) {
+            $cacheKey = base64_encode($path . serialize($query));
+        }
+
+        if ($cache === true && null !== ($data = $this->fromCache($cacheKey))) {
+            return $data;
+        }
+
         $response = $this->request('GET', $path, $query);
-        return $this->deserialize($response, $type, $verify);
+        $data = $this->deserialize($response, $type, $verify);
+        $this->toCache($cacheKey, $data, $response, $cache);
+
+        return $data;
     }
 
     /**
@@ -179,6 +210,55 @@ class Client
     {
         $response = $this->request('DELETE', $path);
         return $this->deserialize($response, $type, $verify);
+    }
+
+    /**
+     * Performs a GET request and returns body.
+     * If cacheable flag is set to true then response body will be cached and returned on subsequent requests.
+     * If response contains Expires header then cache ttl will be set to specified value.
+     *
+     * @param string $uri uri to make request to
+     * @param boolean $cache whether result should be cached or not, if yes then first will check if cache exists
+     * @param string|null $cacheKey specified string will be used as cache key, if omitted then key will be generated based on request
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function fetch($uri, $cache = false, $cacheKey = null)
+    {
+        if ($cacheKey === null) {
+            $cacheKey = base64_encode($uri);
+        }
+
+        if ($cache === true && null !== ($body = $this->fromCache($cacheKey))) {
+            return $body;
+        }
+
+        $request = $this->httpClient
+            ->createRequest('GET', $uri);
+
+        try {
+            $response = $this->httpClient->sendRequest($request);
+        } catch (ClientExceptionInterface $e) {
+            throw ApiCommunicationException::fromException($e);
+        }
+
+        if ($response->getStatusCode() >= 500) {
+            throw ApiServerException::fromResponse($response);
+        }
+
+        if ($response->getStatusCode() >= 400) {
+            throw ApiClientException::fromResponse($response);
+        }
+
+        if (empty($response->getBody())) {
+            throw new \Exception('empty response');
+        }
+
+        $body = (string) $response->getBody();
+        $this->toCache($cacheKey, $body, $response, $cache);
+
+        return $body;
     }
 
     /**
@@ -299,5 +379,79 @@ class Client
             $payload,
             Util\Signature::DEFAULT_DIFFERENCE
         );
+    }
+
+    /**
+     * Format cache key.
+     *
+     * @param string $key cache key
+     * @return string
+     */
+    protected function formatCacheKey($key)
+    {
+        // limit key length to sensible value and add prefix
+        return sprintf(self::CACHE_KEY_PATTERN, substr($key, 0, 8));
+    }
+
+    /**
+     * Get value from cache.
+     *
+     * @param string $key cache key
+     * @return mixed|null
+     */
+    protected function fromCache($key)
+    {
+        if ($this->cache === null) {
+            return null;
+        }
+
+        $key = $this->formatCacheKey($key);
+
+        try {
+            return $this->cache->get($key);
+        } catch (\Psr\SimpleCache\InvalidArgumentException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Add value to cache.
+     *
+     * @param string $key cache key
+     * @param mixed $value value to cache
+     * @param ResponseInterface $response the HTTP response this value has been obtained from
+     * @param bool $cache should we cache or flush the cache
+     * @return void
+     */
+    protected function toCache($key, $value, $response, $cache)
+    {
+        if ($this->cache === null) {
+            return;
+        }
+
+        $key = $this->formatCacheKey($key);
+
+        try {
+            if ($cache === true) {
+                $ttl = null;
+
+                try {
+                    if (
+                        $response->hasHeader('Expires')
+                        && false !== $expires = DateTime::createFromFormat(\DATE_RFC2822, $response->getHeaderLine('Expires'))
+                    ) {
+                        $ttl = $expires->diff(new DateTime('now', new DateTimeZone('UTC')));
+                    }
+                } catch (\Exception $e) {
+                    // date error should not prevent code from completion
+                }
+
+                $this->cache->set($key, $value, $ttl);
+            } else {
+                $this->cache->delete($key);
+            }
+        } catch (\Psr\SimpleCache\InvalidArgumentException $e) {
+            // cache error should not prevent code from completion
+        }
     }
 }

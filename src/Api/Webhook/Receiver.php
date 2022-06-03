@@ -56,6 +56,9 @@ abstract class Receiver
         $event = $this->serializer->deserialize($payload);
 
         switch ($event['type']) {
+            case 'store.update':
+                $this->handleStoreUpdateEvent();
+                break;
             case 'order.status.changed':
                 $this->handleOrderStatusChangedEvent($this->denormalizer->denormalize($event['data'], OrderStatusChanged::class));
                 break;
@@ -67,5 +70,20 @@ abstract class Receiver
         }
     }
 
+    /**
+     * Handle store update event.
+     *
+     * @return void
+     * @throws \Exception Throws exception if fails to handle event.
+     */
+    abstract protected function handleStoreUpdateEvent();
+
+    /**
+     * Handle order status change event.
+     *
+     * @param OrderStatusChanged $model Order status change event object.
+     * @return void
+     * @throws \Exception Throws exception if fails to handle event.
+     */
     abstract protected function handleOrderStatusChangedEvent(OrderStatusChanged $model);
 }

@@ -33,17 +33,22 @@ class Store
      * Get store status.
      *
      * @param StoreStatusRequest $request
+     * @param boolean $cache whether result should be cached or not
+     * @param string|null $cacheKey specified string will be used as cache key, if omitted then key will be generated based on request
      *
      * @return StoreStatusResponse
      *
      * @throws \Exception
      */
-    public function status(StoreStatusRequest $request)
+    public function status(StoreStatusRequest $request, $cache = false, $cacheKey = null)
     {
         return $this->api->get(
             'merchant/store',
             (array) $request,
-            StoreStatusResponse::class
+            StoreStatusResponse::class,
+            false,
+            $cache,
+            $cacheKey
         );
     }
 
