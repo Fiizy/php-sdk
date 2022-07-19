@@ -17,6 +17,8 @@ class WidgetRequest
     public $currency;
     /** @var string locale used for format settings */
     public $locale;
+    /** @var string widget layout style */
+    public $style;
 
     /**
      * Get variables from widget request.
@@ -30,6 +32,7 @@ class WidgetRequest
             'amount' => $this->amount->jsonSerialize(),
             'currency' => $this->currency,
             'locale' => $this->locale,
+            'style' => $this->style,
         );
     }
 }
