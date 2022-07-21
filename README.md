@@ -1,6 +1,6 @@
 # Fiizy PHP SDK
 
-[![Fiizy](https://www.fiizy.com/images/fiizy-logo.png)](https://fiizy.com)
+[![Fiizy](http://cdn.fiizy.com/logos/logo.svg)](https://fiizy.com)
 
 [Fiizy](https://fiizy.com) financing solutions.
 
