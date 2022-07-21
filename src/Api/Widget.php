@@ -43,7 +43,7 @@ class Widget
     }
 
     /**
-     * Replace placeholders in text with variables.
+     * Replace placeholders in text with variables, if placeholder variable is missing replace with empty string.
      *
      * @param string $text text with placeholder
      * @param array $variables array of variables
@@ -55,7 +55,13 @@ class Widget
         return preg_replace_callback(
             '/{{([^}]+)}}/',
             function ($matches) use ($variables) {
-                return $variables[$matches[1]];
+                $key = $matches[1];
+
+                if (!isset($variables[$key])) {
+                    return '';
+                }
+
+                return $variables[$key];
             },
             $text
         );

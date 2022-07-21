@@ -19,7 +19,8 @@ class WidgetTest extends ApiTestCase
             data-key="{{public_key}}"
             data-amount="{{amount}}"
             data-currecy="{{currency}}"
-            data-locale="{{locale}}">
+            data-locale="{{locale}}"
+            data-style="{{style}}">
             <p>Some widget html here</p>
         </div>';
 
@@ -48,7 +49,8 @@ class WidgetTest extends ApiTestCase
             data-key="pub-key"
             data-amount="10.25"
             data-currecy="EUR"
-            data-locale="en_US">
+            data-locale="en_US"
+            data-style="">
             <p>Some widget html here</p>
         </div>', $response);
 
