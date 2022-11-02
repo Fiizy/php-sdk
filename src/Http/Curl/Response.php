@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Response extends AbstractMessage implements ResponseInterface
 {
-
     /** @var string */
     private $reasonPhrase = '';
 

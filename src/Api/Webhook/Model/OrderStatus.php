@@ -7,8 +7,8 @@ namespace Fiizy\Api\Webhook\Model;
  */
 final class OrderStatus
 {
-    const Pending = "pending";
-    const Validating = "validating";
-    const Approved = "approved";
-    const Canceled = "canceled";
+    public const Pending = "pending";
+    public const Validating = "validating";
+    public const Approved = "approved";
+    public const Canceled = "canceled";
 }

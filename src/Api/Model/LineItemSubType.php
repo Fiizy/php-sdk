@@ -8,15 +8,15 @@ namespace Fiizy\Api\Model;
 final class LineItemSubType
 {
     // Physical product - is a tangible item that can be shipped with proof of delivery
-    const PhysicalProduct = "physical";
+    public const PhysicalProduct = "physical";
     // Digital product - items that are stored, delivered, and used in their electronic format
-    const DigitalProduct = "digital";
+    public const DigitalProduct = "digital";
     // Service product - intangible items, ex: hairstyling, car service, repairs
-    const ServiceProduct = "service";
+    public const ServiceProduct = "service";
 
-    const ShippingFee = "shipping";
-    const HandlingFee = "handling";
-    const WrappingFee = "wrapping";
+    public const ShippingFee = "shipping";
+    public const HandlingFee = "handling";
+    public const WrappingFee = "wrapping";
 
-    const DiscountDiscount = "discount";
+    public const DiscountDiscount = "discount";
 }

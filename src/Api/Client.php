@@ -21,9 +21,9 @@ use Psr\SimpleCache\CacheInterface;
  */
 class Client
 {
-    const API_URL = 'https://api.fiizy.es';
-    const BASE_PATH = 'api/v2/';
-    const CACHE_KEY_PATTERN = 'fiizy-api-%s';
+    public const API_URL = 'https://api.fiizy.es';
+    public const BASE_PATH = 'api/v2/';
+    public const CACHE_KEY_PATTERN = 'fiizy-api-%s';
 
     /** @var SerializerInterface */
     protected $serializer;

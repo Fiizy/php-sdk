@@ -9,8 +9,8 @@ use Exception;
  */
 class Signature
 {
-    const DEFAULT_DIFFERENCE = 300;
-    const HEADER_KEY = 'Fiizy-Signature';
+    public const DEFAULT_DIFFERENCE = 300;
+    public const HEADER_KEY = 'Fiizy-Signature';
 
     /**
      * Verify header signature.

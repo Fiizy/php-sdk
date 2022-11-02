@@ -31,10 +31,10 @@
             "@php -d date.timezone=UTC ./vendor/bin/phpunit -c phpunit.xml"
         ],
         "lint": [
-            "vendor/bin/php-cs-fixer fix --no-interaction --dry-run --diff"
+            "vendor/bin/php-cs-fixer fix src --no-interaction --dry-run --diff"
         ],
         "fix": [
-            "vendor/bin/php-cs-fixer fix"
+            "vendor/bin/php-cs-fixer fix src"
         ]
     }
 }

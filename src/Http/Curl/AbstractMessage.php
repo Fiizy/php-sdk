@@ -9,7 +9,6 @@ use Psr\Http\Message\StreamInterface;
  */
 abstract class AbstractMessage
 {
-
     /** @var array Map of all registered headers, as original name => array of values */
     protected $headers = [];
 

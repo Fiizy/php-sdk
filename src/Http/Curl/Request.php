@@ -10,7 +10,7 @@ use Psr\Http\Message\UriInterface;
  */
 class Request extends AbstractMessage implements RequestInterface
 {
-    const HOST_HEADER_KEY = 'Host';
+    public const HOST_HEADER_KEY = 'Host';
 
     /** @var string */
     private $method;

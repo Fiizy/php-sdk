@@ -8,17 +8,17 @@ namespace Fiizy\Api\Model;
 final class OrderStatus
 {
     // New newly created order
-    const NewOrder = "new";
+    public const NewOrder = "new";
     // Validating order
-    const Validating  = "validating";
+    public const Validating  = "validating";
     // Approved order payment is approved
-    const Approved  = "approved";
+    public const Approved  = "approved";
     // ReadyToShip all order items are in stock and ready be shipped
-    const ReadyToShip = "ready_to_ship";
+    public const ReadyToShip = "ready_to_ship";
     // Shipped all order items are shipped
-    const Shipped = "shipped";
+    public const Shipped = "shipped";
     // Delivered all order items are delivered
-    const Delivered = "delivered";
+    public const Delivered = "delivered";
     // Canceled order canceled
-    const Canceled = "canceled";
+    public const Canceled = "canceled";
 }

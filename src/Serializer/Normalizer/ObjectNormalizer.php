@@ -7,7 +7,6 @@ namespace Fiizy\Serializer\Normalizer;
  */
 class ObjectNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-
     /**
      * Normalizes an object.
      * Convert object into an array of key value pairs, with keys converted to snake_case.

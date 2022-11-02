@@ -7,6 +7,6 @@ namespace Fiizy\Api\Model;
  */
 final class StoreStatusCode
 {
-    const Inactive = 'inactive';
-    const Active = 'active';
+    public const Inactive = 'inactive';
+    public const Active = 'active';
 }

@@ -8,7 +8,7 @@ namespace Fiizy\Api\Model;
 final class LineItemStatus
 {
     // Item is in stock
-    const InStock = "in_stock";
+    public const InStock = "in_stock";
     // Item is out of stock
-    const OutOfStock = "out_of_stock";
+    public const OutOfStock = "out_of_stock";
 }
