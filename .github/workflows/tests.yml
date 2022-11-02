@@ -11,9 +11,9 @@ jobs:
     strategy:
       matrix:
         php: ['7.3', '7.4', '8.0', '8.1']
-        dependencies: ['lowest', 'highest']
+        dependencies: ['highest']
         coverage-driver: [pcov]
-    name: PHP ${{ matrix.php }}
+    name: PHP ${{ matrix.php }} with ${{ matrix.dependencies }} dependencies
     steps:
       - name: Checkout
         uses: actions/checkout@v3
