@@ -110,5 +110,40 @@ $response = $checkout->start($request);
 header('Location: ' . $response->redirectUrl);
 ```
 
+To handle the webhook callback please extend `Fiizy\Api\Webhook\Receiver` and implement required methods.
+You should return HTTP status code 2XX in case receiver was able to receive and process event.
+Webhook callback supports a retry mechanism for callback failure (in case HTTP status code was not 2XX).
+
+```
+// WebhookReceiver extends Fiizy\Api\Webhook\Receiver and implements required methods.
+// $receiver = new WebhookReceiver();
+$secret  = 'private-key';
+
+try {
+    $headers = getallheaders();
+
+    if (!isset($headers[\Fiizy\Api\Util\Signature::HEADER_KEY])) {
+        throw new \Exception('missing signature', 401);
+    }
+
+    $payload = @file_get_contents( 'php://input' );
+
+    $processed = $receiver->process( $payload, $headers[ \Fiizy\Api\Util\Signature::HEADER_KEY ], $secret );
+
+    if (true === $processed) {
+        // store data has been modified.
+        $statusCode = 204;
+    } else {
+        // store data has been left as is.
+        $statusCode = 202;
+    }
+
+    http_response_code( $statusCode );
+    header( 'Content-Type: application/json' );
+} catch ( \Exception $e ) {
+    http_response_code( $e->getCode() );
+}
+```
+
 ## Documentation
 

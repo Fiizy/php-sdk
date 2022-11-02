@@ -36,11 +36,11 @@ abstract class Receiver
     /**
      * Process received webhook payload.
      *
-     * @param $payload
-     * @param $signature
-     * @param $secret
-     * @return void
-     * @throws \Exception
+     * @param string $payload Event payload
+     * @param string $signature Event signature
+     * @param string $secret Secret key used to verify signature
+     * @return boolean True if event processed and caused store data to change, false if store data left as is.
+     * @throws \Exception Throws exception if fails to process event.
      */
     public function process($payload, $signature, $secret)
     {
@@ -57,23 +57,22 @@ abstract class Receiver
 
         switch ($event['type']) {
             case 'store.update':
-                $this->handleStoreUpdateEvent();
-                break;
+                return $this->handleStoreUpdateEvent();
             case 'order.status.changed':
-                $this->handleOrderStatusChangedEvent($this->denormalizer->denormalize($event['data'], OrderStatusChanged::class));
-                break;
+                return $this->handleOrderStatusChangedEvent($this->denormalizer->denormalize($event['data'], OrderStatusChanged::class));
             default:
                 $this->logger->warning(
                     sprintf('webhook event %s received but ignored', $event['type']),
                     array('payload' => $payload)
                 );
+                throw new \Exception('unsupported event type', 304);
         }
     }
 
     /**
      * Handle store update event.
      *
-     * @return void
+     * @return boolean True if event processed and caused store data to change, false if store data left as is.
      * @throws \Exception Throws exception if fails to handle event.
      */
     abstract protected function handleStoreUpdateEvent();
@@ -82,7 +81,7 @@ abstract class Receiver
      * Handle order status change event.
      *
      * @param OrderStatusChanged $model Order status change event object.
-     * @return void
+     * @return boolean True if event processed and caused store data to change, false if store data left as is.
      * @throws \Exception Throws exception if fails to handle event.
      */
     abstract protected function handleOrderStatusChangedEvent(OrderStatusChanged $model);
