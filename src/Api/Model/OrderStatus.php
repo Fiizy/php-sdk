@@ -9,6 +9,8 @@ final class OrderStatus
 {
     // New newly created order
     const NewOrder = "new";
+    // Validating order
+    const Validating  = "validating";
     // Approved order payment is approved
     const Approved  = "approved";
     // ReadyToShip all order items are in stock and ready be shipped

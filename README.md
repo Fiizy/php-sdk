@@ -14,6 +14,10 @@ composer require fiizy/fiizy-api-sdk
 
 ## Usage
 
+Create a new order and redirect user to complete the flow.
+Once user flow completes user will be redirected to `returnUrl` and `webhookUrl` endpoint will be called with result of the flow.
+In case user cancels the flow, he will be redirected to `cancelUrl`.
+
 ```php
 $item = new LineItem();
 $item->type = LineItemType::Product;
